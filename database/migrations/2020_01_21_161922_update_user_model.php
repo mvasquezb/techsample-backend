@@ -15,7 +15,7 @@ class UpdateUserModel extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('address1');
-            $table->string('address2');
+            $table->string('address2')->default('');
             $table->string('gender');
             $table->string('city');
             $table->string('country');
