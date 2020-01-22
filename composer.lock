@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d385e532e33a0f3684484c8fea90d9b5",
+    "content-hash": "3471fb6c00cc95d359143f181ce85bee",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1576,6 +1576,74 @@
                 "spatie"
             ],
             "time": "2020-01-17T13:06:17+00:00"
+        },
+        {
+            "name": "spatie/laravel-enum",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-enum.git",
+                "reference": "48be3800b7e90408975e2e826798ca39facdec1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-enum/zipball/48be3800b7e90408975e2e826798ca39facdec1c",
+                "reference": "48be3800b7e90408975e2e826798ca39facdec1c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^5.8 || ^6.0",
+                "illuminate/support": "^5.8 || ^6.0",
+                "php": "^7.2",
+                "spatie/enum": "^2.3",
+                "symfony/console": "^4.3.4"
+            },
+            "conflict": {
+                "bensampo/laravel-enum": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.8 || ^4.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Enum\\Laravel\\EnumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\Laravel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev.gummibeer@gmail.com",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel enum support",
+            "homepage": "https://github.com/spatie/laravel-enum",
+            "keywords": [
+                "enum",
+                "laravel-enum",
+                "spatie"
+            ],
+            "time": "2020-01-16T15:26:11+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
