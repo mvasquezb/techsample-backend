@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Gender;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\UserType;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -62,12 +66,33 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
+        $data = $request->all();
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'api_token' => Str::random(60),
+            'address1' => $data['address1'],
+            'address2' => isset($data['address2']) ? $data['address2'] : '',
+            'gender' => Gender::make($data['gender']),
+            'city' => $data['city'],
+            'country' => $data['country'],
+            'zipCode' => $data['zipCode'],
+            'userType' => UserType::make($data['userType']),
+            'gameTitle' => $data['gameTitle'],
         ]);
+        return $user->apiToken;
+    }
+
+    /**
+     * Modify a user instance
+     * 
+     * @param \App\User $user
+     * @return \App\User
+     */
+    protected function update(User $user) {
+        return $user;
     }
 }
