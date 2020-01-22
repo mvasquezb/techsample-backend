@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,18 +13,18 @@ use Illuminate\Routing\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/reports', 'ReportController@index');
-    Route::post('users.edit', 'RegisterController@update');
+    Route::resource('users', 'UsersController');
+    Route::get('/user', 'AuthController@getUser');
 });
 
 Route::namespace('Auth')->group(function () {
-    Route::post('/forgot-password', 'LoginController@forgotPassword');
-    Route::post('/login', 'LoginController@login');
-    Route::post('/register', 'RegisterController@create');
+    Route::post('/forgot-password', 'ForgotPasswordController@sendResetLinkEmail');
+    Route::get('/reset-password', 'ResetPasswordController@reset')->name('password.reset');
 });
+
+Route::get('/login', 'AuthController@showLogin')->name('login');
+Route::post('/login', 'AuthController@login');
+Route::post('/register', 'AuthController@register');

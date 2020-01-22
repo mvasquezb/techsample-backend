@@ -6,10 +6,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Enum\Laravel\HasEnums;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
+
     use HasEnums;
 
     /**
@@ -29,7 +31,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'address1',
         'address2', 'gender', 'city', 'country',
-        'zipCode', 'userType', 'gameTitle', 'api_token'
+        'zipCode', 'userType', 'gameTitle', 'gamertag',
     ];
 
     /**
