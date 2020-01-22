@@ -20,11 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/reports', 'ReportController@index');
-    Route::post('users.edit', 'RegisterController@update');
+    Route::resource('users', 'UsersController');
 });
 
-Route::namespace('Auth')->group(function () {
-    Route::post('/forgot-password', 'LoginController@forgotPassword');
-    Route::post('/login', 'LoginController@login');
-    Route::post('/register', 'RegisterController@create');
-});
+Route::post('/forgot-password', 'AuthController@forgotPassword');
+Route::post('/login', 'AuthController@login');
+Route::post('/register', 'AuthController@register');
