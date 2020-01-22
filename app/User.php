@@ -30,7 +30,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'address1',
         'address2', 'gender', 'city', 'country',
-        'zipCode', 'userType', 'gameTitle', 'api_token'
+        'zipCode', 'userType', 'gameTitle', 'gamertag',
     ];
 
     /**
@@ -50,9 +50,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getApiTokenAttribute()
-    {
-        return $this->attributes['api_token'];
-    }
 }

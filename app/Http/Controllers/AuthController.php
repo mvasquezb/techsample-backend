@@ -24,12 +24,13 @@ class AuthController extends Controller
                 'password' => 'required',
                 'password_confirmation' => 'required|same:password',
                 'address1' => 'required',
-                'gender' => 'required|enum_name:'.Gender::class,
+                'gender' => 'required|enum_name:' . Gender::class,
                 'city' => 'required',
                 'country' => 'required',
                 'zipCode' => 'required',
-                'userType' => 'required|enum_name:'.UserType::class,
+                'userType' => 'required|enum_name:' . UserType::class,
                 'gameTitle' => 'required',
+                'gamertag' => 'required|unique:users,gamertag',
             ]
         );
         if ($validator->fails()) {
@@ -56,17 +57,24 @@ class AuthController extends Controller
                 'data' => $success,
             ], $this->successStatus);
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
 
     public function getUser()
     {
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
         $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+        return response()->json(['data' => $user], $this->successStatus);
     }
 
-    public function forgotPassword() {
-        
+    public function showLogin()
+    {
+        return response()->json([
+            'message' => 'Login only allowed through API'
+        ], 400);
     }
 }

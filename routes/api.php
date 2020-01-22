@@ -13,16 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/reports', 'ReportController@index');
     Route::resource('users', 'UsersController');
+    Route::get('/user', 'AuthController@getUser');
 });
 
-Route::post('/forgot-password', 'AuthController@forgotPassword');
+Route::namespace('Auth')->group(function () {
+    Route::post('/forgot-password', 'ForgotPasswordController@sendResetLinkEmail');
+    Route::get('/reset-password', 'ResetPasswordController@reset')->name('password.reset');
+});
+
+Route::get('/login', 'AuthController@showLogin')->name('login');
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
