@@ -16,7 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->group(function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/reports', 'ReportController@index');
-    Route::resource('users', 'UsersController');
+    Route::get('/users', 'UsersController@index');
+    Route::post('/user', 'UsersController@update');
     Route::get('/user', 'AuthController@getUser');
 });
 
