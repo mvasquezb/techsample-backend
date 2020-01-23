@@ -21,8 +21,9 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::namespace('Auth')->group(function () {
-    Route::post('/forgot-password', 'ForgotPasswordController@sendResetLinkEmail');
-    Route::get('/reset-password', 'ResetPasswordController@reset')->name('password.reset');
+    Route::post('/forgot-password', 'ForgotPasswordController@getPasswordResetToken');
+    Route::post('/reset-password', 'ResetPasswordController@reset');
+    Route::get('/reset-password', 'ResetPasswordController@showResetForm')->name('password.reset');
 });
 
 Route::get('/login', 'AuthController@showLogin')->name('login');
