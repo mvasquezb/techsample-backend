@@ -74,7 +74,7 @@ class AuthController extends Controller
     public function showLogin()
     {
         return response()->json([
-            'message' => 'Login only allowed through API'
+            'errors' => 'Login only allowed through API',
         ], 400);
     }
 }

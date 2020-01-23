@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Closure;
 use Illuminate\Auth\Passwords\PasswordBroker as PasswordBroker;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class CustomPasswordBroker extends PasswordBroker
 {
