@@ -7,12 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Enum\Laravel\HasEnums;
 use Laravel\Passport\HasApiTokens;
+use Mykeels\Filters\Traits\FilterableTrait;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
-
-    use HasEnums;
+    use Notifiable, HasApiTokens, HasEnums, FilterableTrait;
 
     /**
      * The attributes that are enums

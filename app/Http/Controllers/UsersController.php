@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\UserFilters;
 use App\Gender;
 use App\User;
 use App\UserType;
@@ -14,11 +15,14 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Filters\UserFilters $filters
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, UserFilters $filters)
     {
-        return User::all();
+        return User::filter($filters)->get();
     }
 
     /**
