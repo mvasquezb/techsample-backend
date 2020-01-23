@@ -35,26 +35,27 @@ class ForgotPasswordController extends Controller
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $response = $this->broker()->sendResetLink(
+        $response = $this->broker()->getPasswordResetToken(
             $this->credentials($request)
         );
 
-        return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($request, $response)
-                    : $this->sendResetLinkFailedResponse($request, $response);
+        return $response['result'] == CustomPasswordBroker::RESET_TOKEN_CREATED
+                    ? $this->createResetTokenResponse($request, $response)
+                    : $this->createResetTokenFailedResponse($request, $response);
     }
 
     /**
      * Get the response for a successful password reset link.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
+     * @param  array  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendResetLinkResponse(Request $request, $response)
+    protected function createResetTokenResponse(Request $request, $response)
     {
         return response()->json([
-            'success' => trans($response)
+            'success' => trans($response['result']),
+            'token' => $response['token'],
         ]);
     }
 
@@ -65,10 +66,20 @@ class ForgotPasswordController extends Controller
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendResetLinkFailedResponse(Request $request, $response)
+    protected function createResetTokenFailedResponse(Request $request, $response)
     {
         return response()->json([
-            'errors' => trans($response)
+            'errors' => trans($response['result'])
         ]);
+    }
+
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return \App\Http\Controllers\Auth\CustomPasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker();
     }
 }

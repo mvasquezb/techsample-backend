@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Services;
 
+use App\Http\Controllers\Auth\CustomPasswordBroker;
 use Illuminate\Auth\Passwords\PasswordBrokerManager;
 use Illuminate\Contracts\Auth\PasswordBrokerFactory as FactoryContract;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ class CustomPasswordBrokerManager extends PasswordBrokerManager
      * Resolve the given broker.
      *
      * @param  string  $name
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     * @return \App\Http\Controllers\Auth\CustomPasswordBroker
      *
      * @throws \InvalidArgumentException
      */

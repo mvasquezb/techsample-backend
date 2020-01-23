@@ -7,6 +7,13 @@ use Illuminate\Auth\Passwords\PasswordBroker as PasswordBroker;
 class CustomPasswordBroker extends PasswordBroker
 {
     /**
+     * Constant representing a successfully created reset token
+     * 
+     * @var string
+     */
+    const RESET_TOKEN_CREATED = 'passwords.created';
+    
+    /**
      * Get password reset token from API clients.
      *
      * @param  array  $credentials
@@ -20,21 +27,21 @@ class CustomPasswordBroker extends PasswordBroker
         $user = $this->getUser($credentials);
 
         if (is_null($user)) {
-            return static::INVALID_USER;
+            return ['result' => static::INVALID_USER];
         }
 
         if (method_exists($this->tokens, 'recentlyCreatedToken') &&
             $this->tokens->recentlyCreatedToken($user)) {
-            return static::RESET_THROTTLED;
+            return ['result' => static::RESET_THROTTLED];
         }
 
         // Once we have the reset token, we are ready to send the message out to this
         // user with a link to reset their password. We will then redirect back to
         // the current URI having nothing set in the session to indicate errors.
-        $user->sendPasswordResetNotification(
-            $this->tokens->create($user)
-        );
 
-        return static::RESET_LINK_SENT;
+        return [
+            'result' => static::RESET_TOKEN_CREATED,
+            'token' => $this->tokens->create($user),
+        ];
     }
 }
