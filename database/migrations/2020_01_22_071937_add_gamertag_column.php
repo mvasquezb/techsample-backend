@@ -14,7 +14,7 @@ class AddGamertagColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('gamertag')->unique();
+            $table->string('gamertag')->unique()->default('');
         });
     }
 

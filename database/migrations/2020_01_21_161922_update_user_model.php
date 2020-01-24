@@ -14,14 +14,14 @@ class UpdateUserModel extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('address1');
+            $table->string('address1')->default('');
             $table->string('address2')->default('');
-            $table->string('gender');
-            $table->string('city');
-            $table->string('country');
-            $table->string('zipCode');
-            $table->string('userType');
-            $table->string('gameTitle');
+            $table->string('gender')->default('');
+            $table->string('city')->default('');
+            $table->string('country')->default('');
+            $table->string('zipCode')->default('');
+            $table->string('userType')->default('');
+            $table->string('gameTitle')->default('');
         });
     }
 
