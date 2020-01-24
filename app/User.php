@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name', 'email', 'password', 'address1',
         'address2', 'gender', 'city', 'country',
         'zipCode', 'userType', 'gameTitle', 'gamertag',
+        'avatar'
     ];
 
     /**
