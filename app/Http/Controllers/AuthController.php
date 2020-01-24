@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public $successStatus = 200;
-
     public function register(Request $request)
     {
         $input = $request->all();
@@ -23,11 +21,11 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|confirmed',
                 'address1' => 'required',
-                'gender' => 'required|in:' . implode(',', Gender::getValues()),
+                'gender' => 'required|in:' . implode(',', config('business.genders')),
                 'city' => 'required',
                 'country' => 'required',
                 'zipCode' => 'required',
-                'userType' => 'required|in:' . implode(',', UserType::getValues()),
+                'userType' => 'required|in:' . implode(',', config('business.userTypes')),
                 'gameTitle' => 'required',
                 'gamertag' => 'required|unique:users,gamertag',
             ]
@@ -35,14 +33,13 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
+        
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('AppName')->accessToken;
         $success['user'] = $user;
         return response()->json([
-            'success' => true,
             'data' => $success,
-        ], $this->successStatus);
+        ], $this->createSuccessStatus);
     }
 
     public function login()
