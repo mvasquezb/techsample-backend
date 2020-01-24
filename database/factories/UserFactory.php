@@ -31,7 +31,7 @@ $factory->define(User::class, function (Faker $faker) {
         'country' => $faker->country,
         'zipCode' => Address::postcode(),
         'userType' => $faker->randomElement(config('business.userTypes')),
-        'gameTitle' => $faker->realText(),
+        'gameTitle' => $faker->realText(25),
         'gamertag' => $faker->unique()->userName,
         'avatar' => $faker->imageUrl(),
     ];
