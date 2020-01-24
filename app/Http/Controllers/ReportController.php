@@ -18,7 +18,7 @@ class ReportController extends Controller
      */
     public function dashboard(Request $request)
     {
-        $userType = $request->user()->userType;
+        $userType = UserType::make($request->user()->userType);
         return response()->json([
             'data' => $this->buildDefaultDashboard($request, $userType),
         ]);
@@ -101,7 +101,8 @@ class ReportController extends Controller
 
     private function buildDeveloperList(Request $request)
     {
-        $filters = ['type' => UserType::developer()];
+        // dump(UserType::developer());
+        $filters = ['type' => 'developer'];
         return $this->applyFilters($request, $filters);
     }
 
@@ -109,7 +110,7 @@ class ReportController extends Controller
     {
         $request->replace($params);
         $filters = new UserFilters($request);
-        return User::filter($filters)->get();
+        return User::filterGet($filters);
     }
 
     /**

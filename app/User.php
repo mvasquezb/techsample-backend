@@ -2,25 +2,14 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Filters\Traits\FilterableTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Enum\Laravel\HasEnums;
 use Laravel\Passport\HasApiTokens;
-use Mykeels\Filters\Traits\FilterableTrait;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens, HasEnums, FilterableTrait;
-
-    /**
-     * The attributes that are enums
-     * @var array 
-     */
-    protected $enums = [
-        'gender' => Gender::class,
-        'userType' => UserType::class,
-    ];
+    use Notifiable, HasApiTokens, FilterableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -50,9 +39,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getApiTokenAttribute()
-    {
-        return $this->attributes['api_token'];
-    }
 }

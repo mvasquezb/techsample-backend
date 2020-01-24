@@ -23,11 +23,11 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|confirmed',
                 'address1' => 'required',
-                'gender' => 'required|enum_name:' . Gender::class,
+                'gender' => 'required|in:' . implode(',', Gender::getValues()),
                 'city' => 'required',
                 'country' => 'required',
                 'zipCode' => 'required',
-                'userType' => 'required|enum_name:' . UserType::class,
+                'userType' => 'required|in:' . implode(',', UserType::getValues()),
                 'gameTitle' => 'required',
                 'gamertag' => 'required|unique:users,gamertag',
             ]
