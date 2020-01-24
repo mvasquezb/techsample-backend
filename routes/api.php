@@ -17,7 +17,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/reports', 'ReportController@index');
     Route::get('/users', 'UsersController@index');
-    Route::post('/user', 'UsersController@update');
+    Route::put('/user', 'UsersController@update');
     Route::get('/user', 'AuthController@getUser');
     Route::get('/dashboard', 'ReportController@dashboard');
     Route::post('/report/{id}', 'ReportController@update');

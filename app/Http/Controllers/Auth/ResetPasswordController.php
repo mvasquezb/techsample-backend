@@ -105,9 +105,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $result)
     {
-        return $result;
         return response()->json([
-            'success' => trans($result['response']),
             'token' => $result['token'],
             'user' => $result['user']
         ]);

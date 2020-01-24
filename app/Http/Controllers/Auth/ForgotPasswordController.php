@@ -54,7 +54,6 @@ class ForgotPasswordController extends Controller
     protected function createResetTokenResponse(Request $request, $response)
     {
         return response()->json([
-            'success' => trans($response['result']),
             'token' => $response['token'],
         ]);
     }

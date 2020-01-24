@@ -2,44 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Gender;
+use App\Http\Requests\UserRequest;
 use App\User;
-use App\UserType;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(UserRequest $request)
     {
-        $input = $request->all();
-        $validator = Validator::make(
-            $input,
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|confirmed',
-                'address1' => 'required',
-                'gender' => 'required|in:' . implode(',', config('business.genders')),
-                'city' => 'required',
-                'country' => 'required',
-                'zipCode' => 'required',
-                'userType' => 'required|in:' . implode(',', config('business.userTypes')),
-                'gameTitle' => 'required',
-                'gamertag' => 'required|unique:users,gamertag',
-            ]
-        );
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
-        }
-        
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
+        $validated = $request->validated();
+        $validated['password'] = bcrypt($validated['password']);
+        $user = User::create($validated);
+        $success['token'] =  $user->createToken('AppName')->accessToken;
         $success['user'] = $user;
-        return response()->json([
-            'data' => $success,
-        ], $this->createSuccessStatus);
+        return response()->json($success, $this->createSuccessStatus);
     }
 
     public function login()
@@ -48,23 +24,20 @@ class AuthController extends Controller
             $user = Auth::user();
             $success['token'] =  $user->createToken('AppName')->accessToken;
             $success['user'] = $user;
-            return response()->json([
-                'success' => true,
-                'data' => $success,
-            ], $this->successStatus);
+            return response()->json($success, $this->successStatus);
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['errors' => 'Unauthorized'], 401);
         }
     }
 
     public function getUser()
     {
         if (!Auth::check()) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['errors' => 'Unauthorized'], 401);
         }
 
         $user = Auth::user();
-        return response()->json(['data' => $user], $this->successStatus);
+        return response()->json($user, $this->successStatus);
     }
 
     public function showLogin()
