@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Filters\UserFilters;
-use App\Gender;
+use App\Http\Requests\AvatarUploadRequest;
+use App\Http\Requests\UserRequest;
 use App\User;
-use App\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -28,33 +27,21 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
+     * @param  \App\Http\Requests\AvatarUploadRequest  $uploadRequest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UserRequest $request, AvatarUploadRequest $uploadRequest)
     {
-        $input = $request->all();
-        $validator = Validator::make(
-            $input,
-            [
-                'name' => '',
-                'email' => 'email|unique:users,email',
-                'gender' => 'enum_name:' . Gender::class,
-                'userType' => 'enum_name:' . UserType::class,
-                'gamertag' => 'unique:users,gamertag',
-            ]
-        );
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
+        $input = $request->validated();
         if (isset($input['password'])) {
             $input['password'] = bcrypt($input['password']);
         }
-        $user = Auth::user()->update($input);
-        $success['user'] = $user;
-        return response()->json([
-            'success' => true,
-            'data' => $success,
-        ]);
+        $user = Auth::user();
+        $user->update($input);
+        // $filename = $uploadRequest->file('avatar')->store('photos');
+        // $user->avatar = $filename;
+        // $user->save();
+        return response()->json($user);
     }
 }

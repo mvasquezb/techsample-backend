@@ -5,6 +5,7 @@ namespace App;
 use App\Filters\Traits\FilterableTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -29,7 +30,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'avatar'
     ];
 
     /**
@@ -40,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Gets the user's avatar url
+     * 
+     * @return string
+     */
+    public function getAvatarUrlAttribute() {
+        return filter_var($this->avatar, FILTER_VALIDATE_URL) === FALSE
+                ? Storage::url($this->avatar)
+                : $this->avatar;
+    }
 }
