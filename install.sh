@@ -1,7 +1,4 @@
 #!/bin/sh
 
-composer install
-php artisan key:generate
-php artisan migrate
-php artisan passport:install
-php artisan storage:link
+docker-compose up -d --build
+docker-compose exec app bash -c "./artisan-commands.sh"

@@ -50,7 +50,7 @@ COPY --chown=www:www . /var/www
 USER www
 
 # Run artisan commands
-RUN ./install.sh
+# RUN ./install.sh
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000

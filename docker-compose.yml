@@ -8,6 +8,8 @@ services:
       - ./storage/logs/:/var/log/nginx
     ports:
       - "8080:80"
+    depends_on:
+      - app
   app:
     build:
       context: .
@@ -25,8 +27,10 @@ services:
       - "./docker/mysql/conf.d/:/etc/mysql/conf.d/"
       - "./docker-volumes-data/db:/var/lib/database"
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
   redis:
     image: redis
     volumes:
