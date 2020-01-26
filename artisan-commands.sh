@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 composer install
 php artisan key:generate
