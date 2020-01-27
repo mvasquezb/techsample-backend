@@ -122,7 +122,7 @@ class ResetPasswordController extends Controller
     {
         return response()->json([
             'errors' => trans($result['response'])
-        ]);
+        ], 401);
     }
 
     /**
