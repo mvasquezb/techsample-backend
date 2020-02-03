@@ -43,13 +43,25 @@ class User extends Authenticatable
     ];
 
     /**
+     * The accessors to append to the model's array form
+     * 
+     * @var array
+     */
+    protected $appends = [
+        'avatar_url'
+    ];
+
+    /**
      * Gets the user's avatar url
      * 
      * @return string
      */
     public function getAvatarUrlAttribute() {
+        if ($this->avatar == '') {
+            return '';
+        }
         return filter_var($this->avatar, FILTER_VALIDATE_URL) === FALSE
-                ? Storage::url($this->avatar)
+                ? url(Storage::url($this->avatar))
                 : $this->avatar;
     }
 }

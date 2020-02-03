@@ -8,6 +8,7 @@ use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -28,10 +29,9 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\Http\Requests\AvatarUploadRequest  $uploadRequest
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, AvatarUploadRequest $uploadRequest)
+    public function update(UserRequest $request)
     {
         $input = $request->validated();
         if (isset($input['password'])) {
@@ -39,9 +39,20 @@ class UsersController extends Controller
         }
         $user = Auth::user();
         $user->update($input);
-        // $filename = $uploadRequest->file('avatar')->store('photos');
-        // $user->avatar = $filename;
-        // $user->save();
         return response()->json($user);
+    }
+
+    /**
+     * Update user's avatar picture
+     * 
+     * @param  \App\Http\Requests\AvatarUploadRequest  $uploadRequest
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadAvatar(AvatarUploadRequest $uploadRequest)
+    {
+        $user = Auth::user();
+        $filename = Storage::disk('public')->put('photos', $uploadRequest->avatar);
+        $user->update(['avatar' => $filename]);
+        return $user;
     }
 }
